@@ -33,6 +33,7 @@ class PropertySet:
 @dataclass
 class StructureArtifact:
     smiles: str | None = None
+    smarts: str | None = None
     molfile: str | None = None
     cdxml: str | None = None
     native_preview: str | None = None
@@ -65,6 +66,7 @@ class ReactionRecord:
     pages: list[int] = field(default_factory=list)
     molecules: list[MoleculeRecord] = field(default_factory=list)
     reaction_smiles: str | None = None
+    reaction_smarts: str | None = None
     reaction_components: dict[str, list[str]] = field(
         default_factory=lambda: {"reactants": [], "agents": [], "products": []}
     )

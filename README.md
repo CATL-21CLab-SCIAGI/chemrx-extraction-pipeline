@@ -17,6 +17,7 @@ For each source PDF the pipeline can produce:
 - page text and rendered page images with SHA-256 evidence manifests;
 - a complete molecule inventory with roles and source amounts;
 - reviewed composition SMILES and optional full coordination sidecars;
+- derived molecule SMARTS and reaction SMARTS after review;
 - reaction-side arrays (reactants, agents, products);
 - RDKit molecular properties;
 - conditions, results, and ordered workup steps;
@@ -37,7 +38,10 @@ For each source PDF the pipeline can produce:
 
 The ingest command is deterministic for a given PDF, DPI, and PyMuPDF
 version. It does not claim that page rendering or text extraction has
-identified a structure. Recognition and review are explicit stages.
+identified a structure. Recognition and review are explicit stages. A PDF
+alone is enough to start
+ingestion, but reliable chemical identity still requires image crops and
+reviewed candidates; arbitrary PDF OCR is not chemical ground truth.
 
 ## Review-first workflow
 
@@ -50,12 +54,12 @@ identified a structure. Recognition and review are explicit stages.
 5. Review connectivity, charge, isotope, stereochemistry, salt fragments,
    metal coordination, and source identity against the original image.
 6. Save editable MOL/CDXML and run parser/native readback checks.
-7. Calculate RDKit properties only for accepted structures.
+7. Calculate RDKit properties and derive SMARTS only for accepted structures.
 8. Write the reaction record and evidence manifest. Package only records that
    have closed source evidence and no unresolved core identity.
 
-The detailed rules are in docs/methodology.md, docs/architecture.md, and
-docs/worker-prompt.md.
+The detailed rules are in docs/methodology.md, docs/architecture.md,
+docs/worker-prompt.md, and docs/requirements-audit.md.
 
 ## Optional integrations
 

@@ -22,6 +22,7 @@ def test_assemble_adds_properties_without_touching_source_amount(tmp_path):
                     }
                 ],
                 "reaction_components": {"reactants": ["c1ccccc1"], "agents": [], "products": []},
+                "reaction_smiles": "c1ccccc1>>c1ccccc1",
             }
         ),
         encoding="utf-8",
@@ -30,5 +31,7 @@ def test_assemble_adds_properties_without_touching_source_amount(tmp_path):
     result = json.loads(output.read_text(encoding="utf-8"))
     assert result["molecules"][0]["reported_amount"]["mass_mg"] == 1
     assert result["molecules"][0]["structure"]["properties"]["formula"] == "C6H6"
+    assert result["molecules"][0]["structure"]["smarts"]
+    assert ">>" in result["reaction_smarts"]
     assert validate_record(output)["valid"] is True
 

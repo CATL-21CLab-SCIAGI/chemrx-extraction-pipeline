@@ -13,6 +13,7 @@
       "reported_amount": {"mass_mg": 10.0, "amount_mmol": 0.05},
       "structure": {
         "smiles": null,
+        "smarts": null,
         "candidate_smiles": [],
         "recognition_status": "awaiting_review",
         "review_notes": [],
@@ -23,6 +24,7 @@
     }
   ],
   "reaction_smiles": null,
+  "reaction_smarts": null,
   "reaction_components": {"reactants": [], "agents": [], "products": []},
   "conditions": {
     "solvent": null,

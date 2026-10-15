@@ -6,8 +6,8 @@ The JSON output is organized around a ReactionRecord.
 | --- | --- |
 | source_pdf, source_sha256, pages | reproducible source identity |
 | molecules[] | complete inventory and role assignments |
-| molecules[].structure | SMILES, editable artifacts, candidates, properties |
-| reaction_smiles | reviewed reaction string; may remain null |
+| molecules[].structure | SMILES, derived SMARTS, editable artifacts, candidates, properties |
+| reaction_smiles, reaction_smarts | reviewed reaction string and derived query pattern; may remain null |
 | reaction_components | parser-friendly reactant/agent/product arrays |
 | conditions | raw and normalized experimental conditions |
 | workup | ordered operations and input/output streams |

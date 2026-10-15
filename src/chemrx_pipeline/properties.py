@@ -49,5 +49,29 @@ def validate_smiles(smiles: str) -> dict[str, object]:
         "valid": True,
         "smiles": smiles,
         "canonical_smiles": Chem.MolToSmiles(molecule, canonical=True),
+        "smarts": Chem.MolToSmarts(molecule),
     }
+
+
+def smiles_to_smarts(smiles: str) -> str:
+    """Convert a reviewed molecular SMILES to a query SMARTS pattern."""
+    Chem, *_ = _rdkit()
+    molecule = Chem.MolFromSmiles(smiles)
+    if molecule is None:
+        raise ValueError(f"RDKit cannot parse SMILES: {smiles}")
+    return Chem.MolToSmarts(molecule)
+
+
+def reaction_smiles_to_smarts(reaction_smiles: str) -> str:
+    """Convert a three-sided reaction SMILES string to reaction SMARTS."""
+    try:
+        from rdkit.Chem import AllChem  # type: ignore
+    except ImportError as exc:
+        raise ChemistryBackendUnavailable("Install the chemistry extra.") from exc
+    if reaction_smiles.count(">") != 2:
+        raise ValueError("Reaction SMILES must contain exactly reactants>agents>products.")
+    reaction = AllChem.ReactionFromSmarts(reaction_smiles, useSmiles=True)
+    if reaction is None:
+        raise ValueError("RDKit cannot parse reaction SMILES.")
+    return AllChem.ReactionToSmarts(reaction)
 

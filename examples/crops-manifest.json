@@ -1,0 +1,17 @@
+{
+  "images": [
+    {
+      "id": "substrate_1",
+      "role": "reactant",
+      "page": 12,
+      "image": "runs/paper-001/crops/substrate-1.png"
+    },
+    {
+      "id": "product_1",
+      "role": "product",
+      "page": 12,
+      "image": "runs/paper-001/crops/product-1.png"
+    }
+  ]
+}
+

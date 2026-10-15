@@ -6,9 +6,11 @@ import argparse
 import json
 from pathlib import Path
 
-from .adapters import native_chemdraw_status
+from .adapters import decimer_from_image, native_chemdraw_status
+from .io import sha256_file, write_json
 from .pipeline import create_draft_record, ingest_pdf
-from .properties import calculate_properties, validate_smiles
+from .properties import calculate_properties, reaction_smiles_to_smarts, validate_smiles
+from .recognition import recognize_batch
 from .review import assemble_record, validate_record
 
 
@@ -30,6 +32,16 @@ def build_parser() -> argparse.ArgumentParser:
     props.add_argument("smiles")
     validate = sub.add_parser("validate-smiles", help="parse and canonicalize one SMILES")
     validate.add_argument("smiles")
+    smarts = sub.add_parser("smarts", help="convert molecular or reaction SMILES to SMARTS")
+    smarts.add_argument("smiles", help="SMILES or reaction SMILES")
+    recognize = sub.add_parser("recognize", help="run the explicit DECIMER candidate adapter on an image")
+    recognize.add_argument("image", type=Path)
+    recognize.add_argument("-o", "--output", type=Path, required=True)
+    recognize.add_argument("--endpoint")
+    batch = sub.add_parser("recognize-batch", help="run DECIMER on an explicit crop manifest")
+    batch.add_argument("manifest", type=Path)
+    batch.add_argument("-o", "--output", type=Path, required=True)
+    batch.add_argument("--endpoint")
     assemble = sub.add_parser(
         "assemble",
         help="calculate properties and write an assembled record from a reviewed JSON draft",
@@ -53,6 +65,23 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(calculate_properties(args.smiles).__dict__, ensure_ascii=False, indent=2))
     elif args.command == "validate-smiles":
         print(json.dumps(validate_smiles(args.smiles), ensure_ascii=False, indent=2))
+    elif args.command == "smarts":
+        if args.smiles.count(">") == 2:
+            value = reaction_smiles_to_smarts(args.smiles)
+        else:
+            from .properties import smiles_to_smarts
+
+            value = smiles_to_smarts(args.smiles)
+        print(json.dumps({"input": args.smiles, "smarts": value}, ensure_ascii=False, indent=2))
+    elif args.command == "recognize":
+        result = decimer_from_image(args.image, endpoint=args.endpoint)
+        result["image"] = str(args.image)
+        result["image_sha256"] = sha256_file(args.image)
+        write_json(args.output, result)
+        print(json.dumps({"status": result["status"], "output": str(args.output)}, ensure_ascii=False))
+    elif args.command == "recognize-batch":
+        result = recognize_batch(args.manifest, args.output, endpoint=args.endpoint)
+        print(json.dumps({"status": result["status"], "items": len(result["items"]), "output": str(args.output)}, ensure_ascii=False))
     elif args.command == "assemble":
         print(json.dumps(assemble_record(args.input, args.output), ensure_ascii=False, indent=2))
     elif args.command == "validate-record":

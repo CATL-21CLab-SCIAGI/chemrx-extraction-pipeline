@@ -6,7 +6,13 @@ from pathlib import Path
 from typing import Any
 
 from .io import read_json, write_json
-from .properties import ChemistryBackendUnavailable, calculate_properties, validate_smiles
+from .properties import (
+    ChemistryBackendUnavailable,
+    calculate_properties,
+    reaction_smiles_to_smarts,
+    smiles_to_smarts,
+    validate_smiles,
+)
 
 
 def assemble_record(input_path: str | Path, output_path: str | Path) -> dict[str, Any]:
@@ -21,12 +27,21 @@ def assemble_record(input_path: str | Path, output_path: str | Path) -> dict[str
             continue
         try:
             structure["properties"] = calculate_properties(smiles).__dict__
+            structure["smarts"] = smiles_to_smarts(smiles)
         except (ChemistryBackendUnavailable, ValueError) as exc:
             structure["properties"] = {"source": "failed", "error": str(exc)}
             warnings.append(f"{molecule.get('id', '<unknown>')}: {exc}")
     record.setdefault("review", {})
     record["review"]["assembly_warnings"] = warnings
     record["review"]["status"] = "structure_reviewed" if not warnings else "unresolved"
+    reaction_smiles = record.get("reaction_smiles")
+    if reaction_smiles:
+        try:
+            record["reaction_smarts"] = reaction_smiles_to_smarts(reaction_smiles)
+        except (ChemistryBackendUnavailable, ValueError) as exc:
+            record["reaction_smarts"] = None
+            warnings.append(f"reaction: {exc}")
+            record["review"]["status"] = "unresolved"
     write_json(output_path, record)
     return record
 
