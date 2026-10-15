@@ -72,14 +72,14 @@ def create_draft_record(
     pages = list(range(1, int(evidence["input"]["page_count"]) + 1))
     record = ReactionRecord(
         record_id=record_id,
-        source_pdf=str(Path(pdf).resolve()),
+        source_pdf=str(Path(pdf)),
         source_sha256=evidence["input"]["sha256"],
         pages=pages,
         evidence=[
             EvidenceRef(
                 page=page,
-                image=str(destination / "pages" / f"page-{page:04d}.png"),
-                text=str(destination / "text" / f"page-{page:04d}.txt"),
+                image=str(Path("pages") / f"page-{page:04d}.png"),
+                text=str(Path("text") / f"page-{page:04d}.txt"),
             )
             for page in pages
         ],
