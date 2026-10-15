@@ -13,6 +13,7 @@ This audit describes what the repository can guarantee after installation.
 | Export reaction SMILES | Pass after review | reaction_smiles and reaction_components |
 | Export reaction SMARTS | Pass after review | reaction_smarts derived by RDKit |
 | Calculate molecular properties | Pass after review | formula, exact mass, MW, charge, HBD/HBA, rotatable bonds, TPSA, logP |
+| Extract natural-language molecular properties with Astra | Pass as a reviewed channel | reported_properties keeps raw text, parsed value, unit, Astra provenance, and evidence |
 | Keep solvents, gases, apparatus, mixtures | Pass | complete molecules inventory and nullable structures |
 | Handle coordination and salts | Workflow pass | composition and optional full coordination sidecars |
 | Native ChemDraw save/readback | Optional host stage | capability probe plus run-specific receipt |

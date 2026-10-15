@@ -18,6 +18,13 @@ def test_assemble_adds_properties_without_touching_source_amount(tmp_path):
                         "role": "reactant",
                         "reported_amount": {"mass_mg": 1},
                         "structure": {"smiles": "c1ccccc1"},
+                        "reported_properties": [
+                            {
+                                "name": "appearance",
+                                "value_raw": "white solid",
+                                "extraction_agent": "gpt-6-astra/low",
+                            }
+                        ],
                         "evidence": [{"page": 1}],
                     }
                 ],

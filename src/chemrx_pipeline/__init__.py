@@ -1,6 +1,6 @@
 """ChemRx extraction pipeline."""
 
-from .models import MoleculeRecord, ReactionRecord, RunManifest
+from .models import MoleculeRecord, ReportedProperty, ReactionRecord, RunManifest
 
-__all__ = ["MoleculeRecord", "ReactionRecord", "RunManifest"]
+__all__ = ["MoleculeRecord", "ReportedProperty", "ReactionRecord", "RunManifest"]
 

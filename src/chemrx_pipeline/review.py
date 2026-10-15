@@ -73,6 +73,24 @@ def validate_record(path: str | Path) -> dict[str, Any]:
                 continue
             if not result["valid"]:
                 errors.append(f"{molecule.get('id')}: invalid SMILES")
+        reported = molecule.get("reported_properties", [])
+        if not isinstance(reported, list):
+            errors.append(f"{molecule.get('id')}: reported_properties must be a list")
+        else:
+            for prop_index, prop in enumerate(reported):
+                if not prop.get("name") or not prop.get("value_raw"):
+                    errors.append(
+                        f"{molecule.get('id')}: reported_properties[{prop_index}] needs name and value_raw"
+                    )
+                if prop.get("extraction_agent") in (None, "", "not_run"):
+                    errors.append(
+                        f"{molecule.get('id')}: reported_properties[{prop_index}] missing Astra/reviewer provenance"
+                    )
+                for evidence in prop.get("evidence", []):
+                    if int(evidence.get("page", 0)) < 1:
+                        errors.append(
+                            f"{molecule.get('id')}: reported_properties[{prop_index}] invalid evidence page"
+                        )
         for evidence in molecule.get("evidence", []):
             if int(evidence.get("page", 0)) < 1:
                 errors.append(f"{molecule.get('id')}: invalid evidence page")

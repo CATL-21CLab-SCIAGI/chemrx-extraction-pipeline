@@ -1,0 +1,44 @@
+{
+  "molecule_id": "product_1",
+  "reported_properties": [
+    {
+      "name": "appearance",
+      "value_raw": "light yellow solid",
+      "value_normalized": "light yellow solid",
+      "unit": null,
+      "category": "physical",
+      "extraction_agent": "gpt-6-astra/low",
+      "confidence": "high",
+      "status": "source_reviewed",
+      "evidence": [
+        {
+          "page": 24,
+          "image": "evidence/page-0024.png",
+          "excerpt": "light yellow solid",
+          "sha256": "sha256-of-current-page-image"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "name": "melting_point",
+      "value_raw": "mp 192-193 °C",
+      "value_normalized": {"min": 192, "max": 193},
+      "unit": "°C",
+      "category": "physical",
+      "extraction_agent": "gpt-6-astra/low",
+      "confidence": "high",
+      "status": "source_reviewed",
+      "evidence": [
+        {
+          "page": 24,
+          "image": "evidence/page-0024.png",
+          "excerpt": "mp 192-193 °C",
+          "sha256": "sha256-of-current-page-image"
+        }
+      ],
+      "notes": []
+    }
+  ]
+}
+

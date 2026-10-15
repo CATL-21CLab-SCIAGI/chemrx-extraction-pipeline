@@ -20,6 +20,8 @@ For each source PDF the pipeline can produce:
 - derived molecule SMARTS and reaction SMARTS after review;
 - reaction-side arrays (reactants, agents, products);
 - RDKit molecular properties;
+- Astra-extracted natural-language properties with raw wording, parsed values,
+  units, evidence pages, and reviewer provenance;
 - conditions, results, and ordered workup steps;
 - editable MOL/CDXML and native ChemDraw previews when those adapters are available;
 - a review report that distinguishes passed, unresolved, and failed checks.
@@ -59,7 +61,8 @@ reviewed candidates; arbitrary PDF OCR is not chemical ground truth.
    have closed source evidence and no unresolved core identity.
 
 The detailed rules are in docs/methodology.md, docs/architecture.md,
-docs/worker-prompt.md, and docs/requirements-audit.md.
+docs/worker-prompt.md, docs/astra-property-prompt.md, and
+docs/requirements-audit.md.
 
 ## Optional integrations
 
@@ -73,6 +76,11 @@ docs/worker-prompt.md, and docs/requirements-audit.md.
   run-specific native acceptance receipt.
 
 No adapter silently changes endpoint, model, or representation after failure.
+
+RDKit properties and literature-reported properties are separate channels.
+The latter are stored under molecules[].reported_properties and are extracted
+from source text/figures by the configured Astra reviewer. Raw wording and
+source evidence remain available for review.
 
 ## Scope and limitations
 

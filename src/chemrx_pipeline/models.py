@@ -16,6 +16,22 @@ class EvidenceRef:
 
 
 @dataclass
+class ReportedProperty:
+    """A property read from literature language or a source figure by a reviewer."""
+
+    name: str
+    value_raw: str
+    value_normalized: Any = None
+    unit: str | None = None
+    category: str = "characterization"
+    extraction_agent: str = "not_run"
+    confidence: str = "unreviewed"
+    status: str = "unreviewed"
+    evidence: list[EvidenceRef] = field(default_factory=list)
+    notes: list[str] = field(default_factory=list)
+
+
+@dataclass
 class PropertySet:
     formula: str | None = None
     exact_mass: float | None = None
@@ -52,6 +68,7 @@ class MoleculeRecord:
     current_use: bool | None = None
     reported_amount: dict[str, Any] | None = None
     structure: StructureArtifact = field(default_factory=StructureArtifact)
+    reported_properties: list[ReportedProperty] = field(default_factory=list)
     evidence: list[EvidenceRef] = field(default_factory=list)
     context: dict[str, Any] = field(default_factory=dict)
 

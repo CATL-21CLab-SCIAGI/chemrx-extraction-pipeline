@@ -19,6 +19,20 @@
         "review_notes": [],
         "properties": {"source": "not_run"}
       },
+      "reported_properties": [
+        {
+          "name": "melting_point",
+          "value_raw": "reported text from SI",
+          "value_normalized": {"min": null, "max": null},
+          "unit": "°C",
+          "category": "physical",
+          "extraction_agent": "gpt-6-astra/low",
+          "confidence": "reviewed",
+          "status": "source_reviewed",
+          "evidence": [{"page": 13, "text": "text/page-0013.txt"}],
+          "notes": []
+        }
+      ],
       "evidence": [{"page": 12, "image": "pages/page-0012.png"}],
       "context": {}
     }
