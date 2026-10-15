@@ -1,0 +1,45 @@
+{
+  "record_id": "rxn-0001",
+  "source_pdf": "source/supporting_information.pdf",
+  "source_sha256": "sha256-of-source-pdf",
+  "pages": [12, 13],
+  "molecules": [
+    {
+      "id": "substrate_1",
+      "name": "reported name or null",
+      "role": "reactant",
+      "stage": "reaction",
+      "current_use": true,
+      "reported_amount": {"mass_mg": 10.0, "amount_mmol": 0.05},
+      "structure": {
+        "smiles": null,
+        "candidate_smiles": [],
+        "recognition_status": "awaiting_review",
+        "review_notes": [],
+        "properties": {"source": "not_run"}
+      },
+      "evidence": [{"page": 12, "image": "pages/page-0012.png"}],
+      "context": {}
+    }
+  ],
+  "reaction_smiles": null,
+  "reaction_components": {"reactants": [], "agents": [], "products": []},
+  "conditions": {
+    "solvent": null,
+    "temperature": null,
+    "time": null,
+    "atmosphere": null,
+    "electrochemical": null,
+    "photochemical": null
+  },
+  "workup": [],
+  "results": {"yield": null, "isolated_mass": null},
+  "evidence": [{"page": 12, "text": "text/page-0012.txt"}],
+  "review": {
+    "status": "draft",
+    "source_review": "not_run",
+    "structure_agent": "not_run",
+    "issues": []
+  }
+}
+

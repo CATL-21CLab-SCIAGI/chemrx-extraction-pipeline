@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chemrx-extraction-pipeline"
+version = "0.1.0"
+description = "Evidence-first extraction of molecules, reactions, and properties from chemistry literature PDFs."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "CATL" }]
+dependencies = []
+
+[project.optional-dependencies]
+pdf = ["PyMuPDF>=1.24"]
+chemistry = ["rdkit>=2024.3"]
+ocr = ["requests>=2.31", "Pillow>=10"]
+cdxml = ["cdxml-toolkit>=0.7.0a1"]
+dev = ["pytest>=8", "ruff>=0.6"]
+all = ["PyMuPDF>=1.24", "rdkit>=2024.3", "requests>=2.31", "Pillow>=10", "cdxml-toolkit>=0.7.0a1"]
+
+[project.scripts]
+chemrx = "chemrx_pipeline.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chemrx_pipeline"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
